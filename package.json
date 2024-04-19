@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "cross-env GENERATE_SOURCEMAP=false PORT=3001 react-scripts start",
-    "build": "npm i && react-scripts build && npm install cross-env --save-dev && npm install sats-connect --save-dev",
+    "build": "npm i && npm install cross-env --save-dev && npm install sats-connect --save-dev && react-scripts build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
