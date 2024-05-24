@@ -1,20 +1,24 @@
 {
-  "name": "dapp-cookie-cutter",
+  "name": "rollie.cc",
   "version": "0.1.0",
   "private": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/secretkeylabs/dapp-cookie-cutter"
+    "url": ""
   },
   "license": "ISC",
-  "description": "A cookie cutter for dapps using sats-connect",
+  "description": "rollie.cc",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-brands-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@types/node": "^16.18.87",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
-    "react": "^18.2.0",
+    "react": "^18.3.1",
+    "react-app": "^1.1.2",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "sats-connect": "file:..",
     "typescript": "^4.9.5"
   },

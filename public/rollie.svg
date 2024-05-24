@@ -1,0 +1,18 @@
+<svg width="300" height="100" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Neon Glow -->
+  <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+    <feOffset result="offOut" in="SourceGraphic" dx="0" dy="0"/>
+    <feColorMatrix result="matrixOut" in="offOut" type="matrix"
+      values="0.7 0 0 0 0
+              0 0.7 0 0 0
+              0 0 1 0 0
+              0 0 0 1 0"/>
+    <feGaussianBlur result="blurOut" in="matrixOut" stdDeviation="3"/>
+    <feBlend in="SourceGraphic" in2="blurOut" mode="lighten"/>
+  </filter>
+
+  <!-- Text -->
+  <text x="40%" y="50%" fill="#f9f8f9" font-size="42" text-anchor="middle" font-family="Arial" filter="url(#neonGlow)">rollie</text>
+  <text x="64%" y="50%" fill="#78ce23" font-size="42" text-anchor="middle" font-family="Arial" filter="url(#neonGlow)">.cc</text>
+</svg>
