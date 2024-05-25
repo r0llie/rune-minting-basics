@@ -1,5 +1,7 @@
 import Wallet, { Address, BitcoinNetworkType, AddressPurpose } from 'sats-connect';
 import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 import {
   AddressDisplay,
   NetworkSelector,
@@ -19,13 +21,17 @@ function App() {
   const isConnected = addressInfo.length > 0;
 
   const onConnect = async () => {
-    const response = await Wallet.request('getAccounts', {
-      purposes: [AddressPurpose.Payment, AddressPurpose.Ordinals, AddressPurpose.Stacks],
-      message: 'Cool app wants to know your addresses!',
-    });
-    if (response.status === 'success') {
-      setAddressInfo(response.result);
-      console.log(response.result);
+    try {
+      const response = await Wallet.request('getAccounts', {
+        purposes: [AddressPurpose.Payment, AddressPurpose.Ordinals, AddressPurpose.Stacks],
+        message: 'Cool app wants to know your addresses!',
+      });
+      if (response.status === 'success') {
+        setAddressInfo(response.result);
+        console.log(response.result);
+      }
+    } catch (error) {
+      console.log('Error connecting to the wallet:', error);
     }
   };
 
@@ -39,24 +45,58 @@ function App() {
       <div className="App">
         <header className="App-header">
           <img className="logo" src="/rollie.svg" alt="rollie" />
-          <NetworkSelector network={network} setNetwork={setNetwork} />
-          <p>Cüzdanını bağlamak için butona tıkla!</p>
-          <button onClick={onConnect}>Bağlan</button>
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-sm-3 bg-light justify-content-start"> {/* Sidebar */}
+                <div className="card">
+                  <h3>Connect your wallet - ({network})</h3>
+                  <NetworkSelector network={network} setNetwork={setNetwork} />
+                  <div>
+                    <button onClick={onConnect}>Connect</button>
+                  </div>
+                </div>
+                <SendBtc network={network} /> {/* SendBtc componentini AddressDisplay'in altına ekledik */}
+              </div>
+              <div className="col-sm-9"> {/* Main content */}
+                <div className="row">
+                  <div className='col-md text-light align-self-center'>
+                    <EtchRunes network={network} addresses={addressInfo} />
+                  </div>
+                  <div className='col-md text-light align-self-center'>
+                    <MintRunes network={network} addresses={addressInfo} />
+                  </div>
+                </div> 
+              </div>
+            </div>
+          </div>
         </header>
-      </div>
+    </div>
     );
   }
+
 
   return (
     <div className="App">
       <div className="App-body">
-        <div>
-          <img className="logo" src="/rollie.svg" alt="rollie" />
+        <img className="logo" src="/rollie.svg" alt="rollie" />
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-sm-3 bg-light justify-content-start"> {/* Sidebar */}
+              <AddressDisplay network={network} addresses={addressInfo} onDisconnect={onDisconnect} />
+              <SendBtc network={network} /> {/* SendBtc componentini AddressDisplay'in altına ekledik */}
+            </div>
+            <div className="col-sm-9"> {/* Main content */}
+              <div className="row">
+                <div className='col-md text-light align-self-center'>
+                  <EtchRunes network={network} addresses={addressInfo} />
+                </div>
+                <div className='col-md text-light align-self-stretch'>
+                  <MintRunes network={network} addresses={addressInfo} />
+                </div>
+              </div> 
+            </div>
+          </div>
         </div>
-        <AddressDisplay network={network} addresses={addressInfo} onDisconnect={onDisconnect} />
-        <MintRunes network={network} addresses={addressInfo} />
-        <EtchRunes network={network} addresses={addressInfo} />
-        <SendBtc network={network} />
       </div>
     </div>
   );

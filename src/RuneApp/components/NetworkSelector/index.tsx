@@ -20,7 +20,7 @@ const NetworkSelector = ({ network, setNetwork }: Props) => {
         Network: <span className="action">{network}</span>
       </p>
       <div className="networkSelectorButton">
-        <button onClick={onNetworkChange}>Ağ Değiştir</button>
+        <button onClick={onNetworkChange}>Change Network</button>
       </div>
     </div>
   );

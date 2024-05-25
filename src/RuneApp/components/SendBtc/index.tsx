@@ -10,11 +10,6 @@ const SendBtc = ({ network }: Props) => {
   const [address, setAddress] = useState('');
   const [txnId, setTxnId] = useState('');
 
-  const [isExpanded, setIsExpanded] = useState(false);
-  const handleCardClick = () => {
-    setIsExpanded(!isExpanded);
-  };
-
   const onClick = async () => {
     const response = await Wallet.request('sendTransfer', {
       recipients: [
@@ -43,40 +38,38 @@ const SendBtc = ({ network }: Props) => {
       : `https://mempool.space/testnet/tx/${txnId}`;
 
   return (
-    <div className={`card ${isExpanded ? 'expanded' : ''}`}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h3 style={{ margin: 0 }} onClick={handleCardClick}>Send BTC</h3>
-        <span onClick={handleCardClick}>{isExpanded ? '▲' : '▼'}</span>
+    <div className="card">
+      <div className="card-header">
+        <h2 className="text-center">Send BTC</h2>
       </div>
-      {isExpanded && (
-        <>
-          {!txnId && (
-            <>
-              <p>
-                <div>Amount (sats)</div>
-                <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} />
-              </p>
-              <p>
-                <div>Address</div>
-                <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
-              </p>
-              <button onClick={onClick} disabled={!amount || !address}>
-                Send
-              </button>
-            </>
-          )}
-          {txnId && (
-            <div className="success">
-              Success! Click{' '}
-              <a href={explorerUrl} target="_blank" rel="noreferrer">
-                here
-              </a>{' '}
-              to see your transaction
-            </div>
-          )}
-        </>
+      {!txnId && (
+        <div className="card-body">
+          <div className="mb-3">
+            <label className="form-label">Amount (sats)</label>
+            <input type="number" className="form-control" value={amount} onChange={(e) => setAmount(e.target.value)} />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Address</label>
+            <input type="text" className="form-control" value={address} onChange={(e) => setAddress(e.target.value)} />
+          </div>
+          <button onClick={onClick} disabled={!amount || !address} className="btn btn-primary">
+            Send
+          </button>
+        </div>
+      )}
+      {txnId && (
+        <div className="card-body">
+          <div className="alert alert-success">
+            Success! Click{' '}
+            <a href={explorerUrl} target="_blank" rel="noreferrer">
+              here
+            </a>{' '}
+            to see your transaction
+          </div>
+        </div>
       )}
     </div>
   );
-  };
+};
+
 export default SendBtc;

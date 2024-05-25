@@ -18,7 +18,7 @@ button {
   opacity: 0.9;
   padding: 10px 20px;
   min-width: 130px;
-  background-color: #ff4d00;
+  background-color: #555;
   color: white;
   font-weight: bold;
   border: none;
@@ -31,12 +31,12 @@ button:hover {
 }
 
 button:active {
-  background-color: #ff6a00;
+  background-color: #555;
 }
 
 button:disabled {
   opacity: 0.5;
-  background-color: #ff4d00;
+  background-color: #555;
   cursor: not-allowed;
 }
 

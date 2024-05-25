@@ -14,12 +14,6 @@ const MintRunes = ({ addresses, network }: Props) => {
   const [feeRate, setFeeRate] = useState<string>('');
   const [repeats, setRepeats] = useState<string>('');
 
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const handleCardClick = () => {
-    setIsExpanded(!isExpanded);
-  };
-
   const ordinalsAddress = useMemo(
     () => addresses.find((a) => a.purpose === AddressPurpose.Ordinals)?.address || '',
     [addresses]
@@ -71,61 +65,60 @@ const MintRunes = ({ addresses, network }: Props) => {
       ? `https://mempool.space/tx/${fundTxId}`
       : `https://mempool.space/testnet/tx/${fundTxId}`;
 
-    return (
-      <div className={`card ${isExpanded ? 'expanded' : ''}`}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3 style={{ margin: 0 }} onClick={handleCardClick}>Mint Runes</h3>
-          <span onClick={handleCardClick}>{isExpanded ? '▲' : '▼'}</span>
+  return (
+    <>
+      <div className="card">
+        <div className="container">
+          <h2 className="text-center my-4">Mint Runes</h2>
+          <div className="mb-3">
+            <label className="form-label">Rune Ticker</label>
+            <input type="text" className="form-control" value={runeName} onChange={(e) => setRuneName(e.target.value)} />
+          </div>
+          <div className="mb-3 d-flex align-items-center">
+            <label className="form-label me-3">Repeat</label>
+            <input type="range" min="1" max="1000" className="form-control me-3" style={{ width: '90%' }} value={repeats} onChange={(e) => setRepeats(e.target.value)} />
+            <input type="number" min="1" max="1000" className="form-control no-arrows" style={{ width: '13%' }} value={repeats} onChange={(e) => setRepeats(e.target.value)} />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Fee (sats/vb)</label>
+            <input type="number" className="form-control" value={feeRate} onChange={(e) => setFeeRate(e.target.value)} />
+          </div>
+          <button className="btn btn-primary" onClick={onClickEstimate} disabled={!runeName || !feeRate}>
+            Estimate
+          </button>
         </div>
-        {isExpanded && (
-          <>
-            <div>
-              <h4>Rune Name</h4>
-              <input type="text" value={runeName} onChange={(e) => setRuneName(e.target.value)} />
-            </div>
-            <div>
-              <h4>Repeat</h4>
-              <input type="number" value={repeats} onChange={(e) => setRepeats(e.target.value)} />
-            </div>
-            <div>
-              <h4>feeRate (sats/vb)</h4>
-              <input type="number" value={feeRate} onChange={(e) => setFeeRate(e.target.value)} />
-            </div>
-            <button onClick={onClickEstimate} disabled={!runeName || !feeRate || !repeats}>
-              Estimate Mint
-            </button>
-          {totalCost && (
-            <div className="card">
-              <div>
-                <h3>Rune Name</h3>
-                <p className="success">{runeName}</p>
-              </div>
-              <div>
-                <h3>Repeat</h3>
-                <p className="success">{repeats}</p>
-              </div>
-              <div>
-                <h3>Total Cost (sats) - Total Size</h3>
-                <p className="success">
-                  {totalCost} - {totalSize}
-                </p>
-              </div>
-              <button onClick={onClickExecute}>Execute Mint</button>
-              {fundTxId && (
-                <div className="success">
-                  Success! Click{' '}
-                  <a href={fundTxLink} target="_blank" rel="noreferrer">
-                    here
-                  </a>{' '}
-                  to see your transaction
-                </div>
-                )}
-              </div>
-            )}
-          </>
-        )}
       </div>
-    );
-  };
+
+      {totalCost && (
+        <div className="card">
+          <div>
+            <h3>Rune Name</h3>
+            <p className="success">{runeName}</p>
+          </div>
+          <div>
+            <h3>Repeat</h3>
+            <p className="success">{repeats}</p>
+          </div>
+          <div>
+            <h3>Total Cost (sats) - Total Size</h3>
+            <p className="success">
+              {totalCost} - {totalSize}
+            </p>
+          </div>
+          <button onClick={onClickExecute}>Execute Mint</button>
+          {fundTxId && (
+            <div className="success">
+              Success! Click{' '}
+              <a href={fundTxLink} target="_blank" rel="noreferrer">
+                here
+              </a>{' '}
+              to see your transaction
+            </div>
+          )}
+        </div>
+      )}
+    </>
+  );
+};
 
 export default MintRunes;

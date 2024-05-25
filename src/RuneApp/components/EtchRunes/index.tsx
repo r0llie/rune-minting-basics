@@ -17,12 +17,13 @@ const EtchRunes = ({ addresses, network }: Props) => {
   const [divisibility, setDivisibility] = useState<string>('');
   const [amount, setAmount] = useState<string>('');
   const [mintCap, setMintCap] = useState<string>('');
+  const [turbo, setTurbo] = useState<boolean>();
+  const [reserveSupply, setReserveSupply] = useState<boolean>();
+  const [blockLimit, setBlockLimit] = useState<boolean>();
+  const [heightStart, setHeightStart] = useState<string>('');
+  const [heightEnd, setHeightEnd] = useState<string>('');
 
-  const [isExpanded, setIsExpanded] = useState(false);
-  
-  const handleCardClick = () => {
-    setIsExpanded(!isExpanded);
-  };
+
 
   const ordinalsAddress = useMemo(
     () => addresses.find((a) => a.purpose === AddressPurpose.Ordinals)?.address || '',
@@ -95,80 +96,104 @@ const EtchRunes = ({ addresses, network }: Props) => {
       : `https://mempool.space/testnet/tx/${fundTxId}`;
 
   return (
-    <div className={`card ${isExpanded ? 'expanded' : ''}`}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h3 style={{ margin: 0 }} onClick={handleCardClick} >Etch Runes</h3>
-        <span onClick={handleCardClick}>{isExpanded ? '▲' : '▼'}</span>
-      </div>
-      {isExpanded && (
-        <>
-          <div>
-            <a href="https://docs.ordinals.com/runes.html#etching" target="_blank" rel="noreferrer"> Click here for more information </a>
+    <>
+    <div className="card">
+        <div className="container">
+          <h2 className="text-center my-4">Etching Runes</h2>
+          <div className="mb-3">
+            <label className="form-label">Rune Ticker</label>
+            <input type="text" className="form-control" value={runeName} onChange={(e) => setRuneName(e.target.value)} />
           </div>
-          <div>
-            <h4>Rune Name</h4>
-            <input type="text" value={runeName} onChange={(e) => setRuneName(e.target.value)} />
-          </div>
-          <div>
-            <h4>Symbol</h4>
-            <input type="text" value={symbol} maxLength={1} onChange={(e) => setSymbol(e.target.value)} />
-          </div>
-          <div>
-            <h4>Divisibility</h4>
-            <input
-              type="number"
-              value={divisibility}
-              onChange={(e) => setDivisibility(e.target.value)}
-            />
-          </div>
-          <div>
-            <h4>Premine</h4>
-            <input type="number" value={preMine} onChange={(e) => setPreMine(e.target.value)} />
-          </div>
-          <div>
-            <h4>Amount</h4>
-            <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} />
-          </div>
-          <div>
-            <h4>Mint Cap</h4>
-            <input type="number" value={mintCap} onChange={(e) => setMintCap(e.target.value)} />
-          </div>
-          <div>
-            <h4>feeRate (sats/vb)</h4>
-            <input type="number" value={feeRate} onChange={(e) => setFeeRate(e.target.value)} />
-          </div>
-
-        <button onClick={onClickEstimate} disabled={!runeName || !feeRate}>
-          Estimate Etch
-        </button>
-      
-        {totalCost && (
-          <div className="card">
-            <div>
-              <h3>Rune Name</h3>
-              <p className="success">{runeName}</p>
+          <div className="row">
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Decimals</label>
+              <input type="number" min="0" max="38" className="form-control" value={divisibility} onChange={(e) => setDivisibility(e.target.value)} />
             </div>
-            <div>
-              <h3>Total Cost (sats) - Total Size</h3>
-              <p className="success">
-                {totalCost} - {totalSize}
-              </p>
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Symbol</label>
+              <input type="text" maxLength={1} className="form-control" value={symbol} onChange={(e) => setSymbol(e.target.value)} />
             </div>
-            <button onClick={onClickExecute}>Execute Etch</button>
-            {fundTxId && (
-              <div className="success">
-                Success! Click{' '}
-                <a href={fundTxLink} target="_blank" rel="noreferrer">
-                  here
-                </a>{' '}
-                to see your transaction
+          </div>
+          <div className="row">
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Max Supply</label>
+              <input type="number" className="form-control" value={mintCap} onChange={(e) => setMintCap(e.target.value)} />
+            </div>
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Limit Per Mint</label>
+              <input type="number" className="form-control" value={amount} onChange={(e) => setAmount(e.target.value)} />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-4 mb-3">
+              <div className="form-check">
+                <input className="form-check-input" type="checkbox" checked={turbo} onChange={(e) => setTurbo(e.target.checked)} />
+                <label className="form-check-label">Turbo</label>
               </div>
-            )}
+            </div>
+            <div className="col-md-4 mb-3">
+              <div className="form-check">
+                <input className="form-check-input" type="checkbox" checked={reserveSupply} onChange={(e) => setReserveSupply(e.target.checked)} />
+                <label className="form-check-label">Reserve Supply</label>
+              </div>
+              {reserveSupply && (
+                <div className="mt-2">
+                  <label className="form-label">Premine</label>
+                  <input type="text" className="form-control" value={preMine} onChange={(e) => setPreMine(e.target.value)} />
+                </div>
+              )}
+            </div>
+            <div className="col-md-4 mb-3">
+              <div className="form-check">
+                <input className="form-check-input" type="checkbox" checked={blockLimit} onChange={(e) => setBlockLimit(e.target.checked)} />
+                <label className="form-check-label">Block Limit</label>
+              </div>
+              {blockLimit && (
+                <div className="mt-2">
+                  <label className="form-label">Starting Block</label>
+                  <input type="text" className="form-control" value={heightStart} onChange={(e) => setHeightStart(e.target.value)} />
+                  <label className="form-label">Ending Block</label>
+                  <input type="text" className="form-control" value={heightEnd} onChange={(e) => setHeightEnd(e.target.value)} />
+                </div>
+              )}
+            </div>
           </div>
+          <div className="mb-3">
+            <label className="form-label">Fee (sats/vb)</label>
+            <input type="number" className="form-control" value={feeRate} onChange={(e) => setFeeRate(e.target.value)} />
+          </div>
+          <button className="button" onClick={onClickEstimate} disabled={!runeName || !feeRate}>
+            Estimate
+          </button>
+        </div>
+
+
+      {totalCost && (
+        <div className="card">
+          <div>
+            <h3>Rune Name</h3>
+            <p className="success">{runeName}</p>
+          </div>
+          <div>
+            <h3>Total Cost (sats) - Total Size</h3>
+            <p className="success">
+              {totalCost} - {totalSize}
+            </p>
+          </div>
+          <button onClick={onClickExecute}>Execute Etch</button>
+          {fundTxId && (
+            <div className="success">
+              Success! Click{' '}
+              <a href={fundTxLink} target="_blank" rel="noreferrer">
+                here
+              </a>{' '}
+              to see your transaction
+            </div>
           )}
-        </>
-        )}
-  </div>
+        </div>
+      )}
+      </div>
+    </>
   );
 };
 

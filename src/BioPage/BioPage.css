@@ -58,33 +58,33 @@
 
 .menu {
   position: absolute;
-  top: 0;
+  top: 0px;
   left: -1950px; /* Menüyü sol tarafa saklayın */
-  width: 1950px;
-  height: 3vh;
+  width: 100%;
+  height: 8vh;
   background-color: #333; /* Menü arka plan rengi */
   transition: left 0.3s ease-in-out; /* Geçiş efekti ekle */
 
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
 .menu.open {
+  top: 0;
   left: 0; /* Menüyü sağa doğru aç */
 }
 
 .menu-button {
   position: absolute;
-  top: 5px;
+  top: 0px;
   left: 20px;
   background-color: transparent;
   color: white;
   border: none;
   font-size: 18px;
   cursor: pointer;
-  z-index: 1; /* Menü butonunu içeriğin üzerine getir */
+  z-index: 2; /* Menü butonunu içeriğin üzerine getir */
 }
 
 .menu-button:focus {
@@ -96,10 +96,10 @@
   flex-direction: row;
   gap: 10px;
   position: relative;
-  top: 10px;
+  top: 0px;
   background-color: #222222;
   padding: 20px;
-  z-index: 1;
+  z-index: 2;
 }
 
 .menu.open button {

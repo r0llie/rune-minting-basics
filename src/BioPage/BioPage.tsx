@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import App from '../RuneApp/App';
+import Footer from '../InFooter/InFooter';
 import BioInfo from '../BioInfo/BioInfo'; // Yeni bileşeni içe aktarın
 import './BioPage.css';
 
 function BioPage() {
+    
+
+
     const [menuOpen, setMenuOpen] = useState(false);
     const [currentApp, setCurrentApp] = useState<JSX.Element | null>(null);
 
@@ -32,6 +36,9 @@ function BioPage() {
             </div>
             <div className="content">
                 {currentApp}
+            </div>
+            <div className='footer'>
+                <Footer />
             </div>
         </div>
     );
