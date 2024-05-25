@@ -3,7 +3,45 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: #f8f9fa;
+    background-color: #222222;
     color: black;
     text-align: center;
+  }
+  
+  .footer .container .d-flex > div {
+    color: #78ce23;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    max-height: 40px; /* Adjust this value as needed */
+  }
+  
+  .footer .container .d-flex > div > div {
+    display: flex;
+    align-items: center;
+  }
+  
+  .footer .info-section {
+    margin-left: 2rem; /* Sağdaki bilgileri biraz daha sağa taşır */
+  }
+  
+  .footer .info-section > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px; /* İç kapsayıcıların aynı hizada olmasını sağlar */
+  }
+  
+  .footer .info-section > div > div {
+    display: flex;
+    align-items: center;
+  }
+  
+  .footer .social-link {
+    color: #78ce23;
+    left: -0.5rem; /* Sosyal linkleri sola taşır */
+    font-size: 2rem; /* Font size büyütülüyor */
+    padding: 0.03rem; /* Butonun çevresindeki boşluk artırılıyor */
+    margin-right: 0.2rem; /* Butonlar arasındaki boşluk */
   }
